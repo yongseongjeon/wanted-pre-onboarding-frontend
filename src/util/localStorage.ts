@@ -1,7 +1,11 @@
 function getItemFromLocalStorage(key: string) {
   const item = localStorage.getItem(key);
   const hasItem = !!item;
-  const isItemTypeString = typeof item === "string";
+  const objectRegExp = /^\{[\s\S]*\}$/;
+  const arrayRegExp = /^\[[\s\S]*\]$/;
+  const isItemTypeObject = !!item?.match(objectRegExp);
+  const isItemTypeArray = !!item?.match(arrayRegExp);
+  const isItemTypeString = !isItemTypeObject && !isItemTypeArray;
   if (!hasItem || isItemTypeString) {
     return item;
   }
