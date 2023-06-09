@@ -15,7 +15,7 @@ const routeConfigs: RouteConfig[] = [
 ];
 
 interface RouteConfig {
-  path: string;
+  path: (typeof ROUTE_PATH)[keyof typeof ROUTE_PATH];
   element: React.ReactNode;
 }
 
