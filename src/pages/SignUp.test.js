@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { TEST_ID } from "../constant/test";
+import { TEST_ID } from "../constants/test";
 import SignUp from "./SignUp";
 
 describe("SignIn page", () => {

@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import SignIn from "./SignIn";
-import { TEST_ID } from "../constant/test";
+import { TEST_ID } from "../constants/test";
 
 describe("SignIn page", () => {
   it("이메일 입력창을 표시한다.", () => {

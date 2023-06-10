@@ -1,4 +1,4 @@
-import { TEST_ID } from "../../constant/test";
+import { TEST_ID } from "../../constants/test";
 
 function Input({ type, value, onChange, testId }: InputProps) {
   return <input type={type} value={value} onChange={onChange} data-testid={testId} />;
