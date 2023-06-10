@@ -14,8 +14,10 @@ const routeConfigs: RouteConfig[] = [
   { path: ROUTE_PATH.TODO, element: <TodoList /> },
 ];
 
+export type RoutePath = (typeof ROUTE_PATH)[keyof typeof ROUTE_PATH];
+
 interface RouteConfig {
-  path: (typeof ROUTE_PATH)[keyof typeof ROUTE_PATH];
+  path: RoutePath;
   element: React.ReactNode;
 }
 
