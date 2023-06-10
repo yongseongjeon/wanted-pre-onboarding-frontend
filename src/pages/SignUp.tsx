@@ -5,6 +5,7 @@ import { TEST_ID } from "../constants/test";
 import useFormValidation from "../hooks/useFormValidation";
 import useInput from "../hooks/useInput";
 import { ROUTE_PATH } from "../route";
+import { useEffect } from "react";
 
 const INIT_STATE = "";
 
@@ -21,6 +22,8 @@ function SignUp() {
     }
     router(ROUTE_PATH.SIGN_IN);
   };
+
+  useEffect(() => {}, []);
 
   return (
     <>

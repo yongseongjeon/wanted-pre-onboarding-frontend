@@ -1,4 +1,5 @@
-import { validateEmail, validatePassword } from "./util";
+import { setItemToLocalStorage } from "./localStorage";
+import { validateEmail, validatePassword, validateSignIn } from "./validation";
 
 describe("Util", () => {
   it("validateEmail의 이메일에 @가 없으면 false를 반환한다.", () => {
@@ -16,5 +17,13 @@ describe("Util", () => {
   it("비밀번호가 8자 이상이면 true를 반환한다.", () => {
     const mockPassword = "12345678";
     expect(validatePassword(mockPassword)).toBeTruthy();
+  });
+  it("로컬 스토리지에 액세스 토큰이 없으면 false를 반환한다.", () => {
+    expect(validateSignIn()).toBeFalsy();
+  });
+  it("로컬 스토리지에 액세스 토큰이 있으면 true를 반환한다.", () => {
+    const mockAccessToken = "ABCD";
+    setItemToLocalStorage("accessToken", mockAccessToken);
+    expect(validateSignIn()).toBeTruthy();
   });
 });
