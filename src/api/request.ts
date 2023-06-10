@@ -1,17 +1,29 @@
-const END_POINT = "https://www.pre-onboarding-selection-task.shop";
+import { setItemToLocalStorage } from "../utils/localStorage";
+import { SIGN_IN_API_URL, SIGN_UP_API_URL } from "./url";
 
-async function signUp({ email, password }: SignUpProps) {
+async function signUp({ email, password }: AuthProps) {
   const headers = {
     "Content-Type": "application/json",
   };
   const body = JSON.stringify({ email, password });
-  const res = await fetch(`${END_POINT}/auth/signup`, { method: "POST", headers, body });
+  const res = await fetch(SIGN_UP_API_URL, { method: "POST", headers, body });
   return res;
 }
 
-export { signUp };
+async function signIn({ email, password }: AuthProps) {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  const body = JSON.stringify({ email, password });
+  const res = await fetch(SIGN_IN_API_URL, { method: "POST", headers, body });
+  const { access_token: receivedAccessToken } = await res.json();
+  setItemToLocalStorage("accessToken", receivedAccessToken);
+  return res;
+}
 
-interface SignUpProps {
+export { signUp, signIn };
+
+interface AuthProps {
   email: string;
   password: string;
 }
