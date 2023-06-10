@@ -6,6 +6,7 @@ import useFormValidation from "../hooks/useFormValidation";
 import useInput from "../hooks/useInput";
 import { ROUTE_PATH } from "../route";
 import { useEffect } from "react";
+import { validateSignIn } from "../utils/validation";
 
 const INIT_STATE = "";
 
@@ -15,6 +16,13 @@ function SignUp() {
   const isFormValid = useFormValidation({ email, password });
   const router = useNavigate();
 
+  useEffect(function RedirectTodoPageIfSignedIn() {
+    const isSignedIn = validateSignIn();
+    if (isSignedIn) {
+      router(ROUTE_PATH.TODO);
+    }
+  }, []);
+
   const handleClickSubmitBtn = async () => {
     const res = await signUp({ email, password });
     if (!res.ok) {
@@ -22,8 +30,6 @@ function SignUp() {
     }
     router(ROUTE_PATH.SIGN_IN);
   };
-
-  useEffect(() => {}, []);
 
   return (
     <>
