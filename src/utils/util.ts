@@ -2,4 +2,9 @@ function validateEmail(email: string) {
   return email.includes("@");
 }
 
-export { validateEmail };
+function validatePassword(password: string) {
+  const MIN_LENGTH = 8;
+  return password.length >= MIN_LENGTH;
+}
+
+export { validateEmail, validatePassword };
