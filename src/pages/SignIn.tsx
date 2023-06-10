@@ -6,6 +6,7 @@ import useInput from "../hooks/useInput";
 import { validateSignIn } from "../utils/validation";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../route";
+import { signIn } from "../api/request";
 
 const INIT_STATE = "";
 
@@ -15,6 +16,7 @@ function SignIn() {
   const isValid = useFormValidation({ email, password });
   const router = useNavigate();
 
+  // TODO: 회원가입 페이지와 같은 로직 제거
   useEffect(function RedirectTodoPageIfSignedIn() {
     const isSignedIn = validateSignIn();
     if (isSignedIn) {
@@ -22,11 +24,19 @@ function SignIn() {
     }
   }, []);
 
+  const handleClickSignInBtn = async () => {
+    const res = await signIn({ email, password });
+    if (!res.ok) {
+      alert("로그인에 실패했습니다.");
+    }
+    router(ROUTE_PATH.TODO);
+  };
+
   return (
     <>
       <Input type="email" value={email} onChange={handleChangeEmail} testId={TEST_ID.INPUT.EMAIL} />
       <Input type="password" value={password} onChange={handleChangePassword} testId={TEST_ID.INPUT.PASSWORD} />
-      <button disabled={!isValid} data-testid={TEST_ID.BUTTON.SIGN_IN}>
+      <button disabled={!isValid} onClick={handleClickSignInBtn} data-testid={TEST_ID.BUTTON.SIGN_IN}>
         로그인
       </button>
     </>
