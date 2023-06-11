@@ -49,11 +49,22 @@ async function requestDeleteTodo({ id }: { id: number }) {
     Authorization: `Bearer ${storedAccessToken}`,
   };
   const res = await fetch(ID_REQUIRED_FULL_REQUEST_URL.DELETE(id), { method: "DELETE", headers });
+  return res;
+}
+
+async function requestUpdateTodo({ id, todo, isCompleted }: { id: number; todo: string; isCompleted: boolean }) {
+  const storedAccessToken = getItemFromLocalStorage("accessToken");
+  const headers = {
+    Authorization: `Bearer ${storedAccessToken}`,
+    "Content-Type": "application/json",
+  };
+  const body = JSON.stringify({ todo, isCompleted });
+  const res = await fetch(ID_REQUIRED_FULL_REQUEST_URL.UPDATE(id), { method: "PUT", headers, body });
   const resJson = await res.json();
   return resJson;
 }
 
-export { requestSignUp, requestSignIn, requestGetTodos, requestAddTodo, requestDeleteTodo };
+export { requestSignUp, requestSignIn, requestGetTodos, requestAddTodo, requestDeleteTodo, requestUpdateTodo };
 
 interface AuthProps {
   email: string;
