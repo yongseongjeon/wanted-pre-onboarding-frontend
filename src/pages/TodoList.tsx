@@ -2,7 +2,7 @@ import { validateSignIn } from "../utils/validation";
 import { ROUTE_PATH } from "../route";
 import useRouter from "../hooks/useRouter";
 import { useEffect } from "react";
-import Todo from "../components/Todo/Todo";
+import TodoContainer from "../components/TodoContainer/TodoContainer";
 import { requestAddTodo, requestGetTodos } from "../api/request";
 import Input from "../components/Input/Input";
 import useInput from "../hooks/useInput";
@@ -44,7 +44,7 @@ function TodoList() {
         추가
       </button>
       {todos.map(({ id, todo, isCompleted }: TodoType) => (
-        <Todo id={id} todo={todo} isCompleted={isCompleted} />
+        <TodoContainer id={id} todo={todo} isCompleted={isCompleted} />
       ))}
     </div>
   );
