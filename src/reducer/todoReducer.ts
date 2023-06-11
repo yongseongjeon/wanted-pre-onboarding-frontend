@@ -7,21 +7,22 @@ const TODO_ACTIONS = {
 
 export interface TodoType {
   id: number;
-  content: string;
+  todo: string;
+  isCompleted: boolean;
 }
-interface Todos {
+export interface Todos {
   todos: TodoType[];
 }
 function setTodos({ todos }: Todos) {
   return { type: TODO_ACTIONS.SET_TODOS, payload: { todos } };
 }
 
-function addTodos({ id, content }: TodoType) {
-  return { type: TODO_ACTIONS.ADD_TODO, payload: { id, content } };
+function addTodo({ id, todo, isCompleted, userId }: { id: number; todo: string; isCompleted: boolean; userId: number }) {
+  return { type: TODO_ACTIONS.ADD_TODO, payload: { id, todo, isCompleted, userId } };
 }
 
-function modifyTodo({ id, content }: TodoType) {
-  return { type: TODO_ACTIONS.MODIFY_TODO, payload: { id, content } };
+function modifyTodo({ id, todo }: { id: number; todo: string }) {
+  return { type: TODO_ACTIONS.MODIFY_TODO, payload: { id, todo } };
 }
 
 function deleteTodo({ id }: { id: number }) {
@@ -32,8 +33,8 @@ const initialState: TodoType[] = [];
 
 type ActionType =
   | { type: typeof TODO_ACTIONS.SET_TODOS; payload: Todos }
-  | { type: typeof TODO_ACTIONS.ADD_TODO; payload: TodoType }
-  | { type: typeof TODO_ACTIONS.MODIFY_TODO; payload: TodoType }
+  | { type: typeof TODO_ACTIONS.ADD_TODO; payload: { id: number; todo: string; isCompleted: boolean; userId: number } }
+  | { type: typeof TODO_ACTIONS.MODIFY_TODO; payload: { id: number; todo: string } }
   | { type: typeof TODO_ACTIONS.DELETE_TODO; payload: { id: number } };
 
 function todoReducer(state = initialState, action: ActionType) {
@@ -41,12 +42,17 @@ function todoReducer(state = initialState, action: ActionType) {
     case TODO_ACTIONS.SET_TODOS:
       return action.payload.todos;
     case TODO_ACTIONS.ADD_TODO:
-      const newTodo = { id: action.payload.id, content: action.payload.content };
+      const newTodo = {
+        id: action.payload.id,
+        todo: action.payload.todo,
+        isCompleted: action.payload.isCompleted,
+        userId: action.payload.userId,
+      };
       return [...state, newTodo];
     case TODO_ACTIONS.MODIFY_TODO:
       return state.map((todo) => {
         if (todo.id === action.payload.id) {
-          const modifiedTodo = { ...todo, content: action.payload.content };
+          const modifiedTodo = { ...todo, todo: action.payload.todo };
           return modifiedTodo;
         }
         return todo;
@@ -58,4 +64,4 @@ function todoReducer(state = initialState, action: ActionType) {
   }
 }
 
-export { setTodos, addTodos, modifyTodo, deleteTodo, todoReducer };
+export { setTodos, addTodo, modifyTodo, deleteTodo, todoReducer };
