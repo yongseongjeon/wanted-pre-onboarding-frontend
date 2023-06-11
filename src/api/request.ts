@@ -1,5 +1,5 @@
 import { getItemFromLocalStorage, setItemToLocalStorage } from "../utils/localStorage";
-import { FULL_REQUEST_URL } from "./url";
+import { FULL_REQUEST_URL, ID_REQUIRED_FULL_REQUEST_URL } from "./url";
 
 async function requestSignUp({ email, password }: AuthProps) {
   const headers = {
@@ -43,7 +43,17 @@ async function requestAddTodo({ todo }: { todo: string }) {
   return resJson;
 }
 
-export { requestSignUp, requestSignIn, requestGetTodos, requestAddTodo };
+async function requestDeleteTodo({ id }: { id: number }) {
+  const storedAccessToken = getItemFromLocalStorage("accessToken");
+  const headers = {
+    Authorization: `Bearer ${storedAccessToken}`,
+  };
+  const res = await fetch(ID_REQUIRED_FULL_REQUEST_URL.DELETE(id), { method: "DELETE", headers });
+  const resJson = await res.json();
+  return resJson;
+}
+
+export { requestSignUp, requestSignIn, requestGetTodos, requestAddTodo, requestDeleteTodo };
 
 interface AuthProps {
   email: string;
