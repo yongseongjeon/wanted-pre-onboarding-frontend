@@ -12,7 +12,7 @@ import { TEST_ID } from "../constants/test";
 function TodoList() {
   const { routeTo } = useRouter();
   const [todos, dispatch] = useReducer(todoReducer, []);
-  const [todoInputValue, handleTodoInputValue] = useInput("");
+  const [todoInputValue, handleTodoInputValue, resetInputValue] = useInput("");
 
   useEffect(function redirectSignInPageIfNotSignedIn() {
     const isSignedIn = validateSignIn();
@@ -32,6 +32,7 @@ function TodoList() {
   async function handleClickAddBtn() {
     const newTodo = await requestAddTodo({ todo: todoInputValue });
     dispatch(addTodo(newTodo));
+    resetInputValue();
   }
 
   return (

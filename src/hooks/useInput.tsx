@@ -8,9 +8,13 @@ function useInput(initialState: string): useInputReturnType {
     setValue(changedValue);
   };
 
-  return [value, handleChange];
+  const resetValue = () => {
+    setValue("");
+  };
+
+  return [value, handleChange, resetValue];
 }
 
 export default useInput;
 
-type useInputReturnType = [string, (e: React.ChangeEvent<HTMLInputElement>) => void];
+type useInputReturnType = [string, (e: React.ChangeEvent<HTMLInputElement>) => void, () => void];
