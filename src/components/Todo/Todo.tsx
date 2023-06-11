@@ -1,14 +1,58 @@
 import { TodoType } from "../../reducer/todoReducer";
+import useInput from "../../hooks/useInput";
+import Input from "../Input/Input";
+import { TEST_ID } from "../../constants/test";
+import useToggle from "../../hooks/useToggle";
 
-function Todo({ id, content }: TodoType) {
+function Todo({ id, todo, isCompleted }: TodoType) {
+  const [isEditing, toggleIsEditing] = useToggle(false);
+
   return (
-    <li key={id}>
-      <label>
-        <input type="checkbox" />
-        <span>{content}</span>
-      </label>
+    <li>
+      {isEditing ? (
+        <EditingTodo todo={todo} toggleIsEditing={toggleIsEditing} />
+      ) : (
+        <NormalTodo todo={todo} toggleIsEditing={toggleIsEditing} />
+      )}
     </li>
   );
 }
 
 export default Todo;
+
+function EditingTodo({ todo, toggleIsEditing }: { todo: string; toggleIsEditing: () => void }) {
+  const [todoInputValue, handleTodoInputValue, , setTodoInputValue] = useInput(todo);
+
+  const handleClickCancelBtn = () => {
+    toggleIsEditing();
+    setTodoInputValue(todo);
+  };
+
+  return (
+    <>
+      <label>
+        <input type="checkbox" />
+        <Input type="text" value={todoInputValue} onChange={handleTodoInputValue} testId={TEST_ID.INPUT.MODIFY} />
+      </label>
+      <button data-testid={TEST_ID.BUTTON.SUBMIT}>제출</button>
+      <button onClick={handleClickCancelBtn} data-testid={TEST_ID.BUTTON.CANCEL}>
+        취소
+      </button>
+    </>
+  );
+}
+
+function NormalTodo({ todo, toggleIsEditing }: { todo: string; toggleIsEditing: () => void }) {
+  return (
+    <>
+      <label>
+        <input type="checkbox" />
+        <span>{todo}</span>
+      </label>
+      <button onClick={toggleIsEditing} data-testid={TEST_ID.BUTTON.MODIFY}>
+        수정
+      </button>
+      <button data-testid={TEST_ID.BUTTON.DELETE}>삭제</button>
+    </>
+  );
+}
