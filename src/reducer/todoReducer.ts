@@ -1,9 +1,9 @@
-enum TODO_ACTIONS {
-  SET_TODOS = "SET_TODOS",
-  ADD_TODO = "ADD_TODO",
-  MODIFY_TODO = "MODIFY_TODO",
-  DELETE_TODO = "DELETE_TODO",
-}
+const TODO_ACTIONS = {
+  SET_TODOS: "SET_TODOS",
+  ADD_TODO: "ADD_TODO",
+  MODIFY_TODO: "MODIFY_TODO",
+  DELETE_TODO: "DELETE_TODO",
+} as const;
 
 export interface TodoType {
   id: number;
@@ -13,35 +13,28 @@ interface Todos {
   todos: TodoType[];
 }
 function setTodos({ todos }: Todos) {
-  return createAction(TODO_ACTIONS.SET_TODOS, { todos });
+  return { type: TODO_ACTIONS.SET_TODOS, payload: { todos } };
 }
 
 function addTodos({ id, content }: TodoType) {
-  return createAction(TODO_ACTIONS.ADD_TODO, { id, content });
+  return { type: TODO_ACTIONS.ADD_TODO, payload: { id, content } };
 }
 
 function modifyTodo({ id, content }: TodoType) {
-  return createAction(TODO_ACTIONS.MODIFY_TODO, { id, content });
+  return { type: TODO_ACTIONS.MODIFY_TODO, payload: { id, content } };
 }
 
-interface DeleteTodoProps {
-  id: number;
-}
-function deleteTodo({ id }: DeleteTodoProps) {
-  return createAction(TODO_ACTIONS.DELETE_TODO, { id });
-}
-
-function createAction(type: string, payload: object) {
-  return { type, payload };
+function deleteTodo({ id }: { id: number }) {
+  return { type: TODO_ACTIONS.DELETE_TODO, payload: { id } };
 }
 
 const initialState: TodoType[] = [];
 
 type ActionType =
-  | { type: TODO_ACTIONS.SET_TODOS; payload: Todos }
-  | { type: TODO_ACTIONS.ADD_TODO; payload: TodoType }
-  | { type: TODO_ACTIONS.MODIFY_TODO; payload: TodoType }
-  | { type: TODO_ACTIONS.DELETE_TODO; payload: { id: number } };
+  | { type: typeof TODO_ACTIONS.SET_TODOS; payload: Todos }
+  | { type: typeof TODO_ACTIONS.ADD_TODO; payload: TodoType }
+  | { type: typeof TODO_ACTIONS.MODIFY_TODO; payload: TodoType }
+  | { type: typeof TODO_ACTIONS.DELETE_TODO; payload: { id: number } };
 
 function todoReducer(state = initialState, action: ActionType) {
   switch (action.type) {
