@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { signUp } from "../api/request";
+import { requestSignUp } from "../api/request";
 import Input from "../components/Input/Input";
 import { TEST_ID } from "../constants/test";
 import useFormValidation from "../hooks/useFormValidation";
@@ -24,7 +24,7 @@ function SignUp() {
   }, []);
 
   const handleClickSubmitBtn = async () => {
-    const res = await signUp({ email, password });
+    const res = await requestSignUp({ email, password });
     if (!res.ok) {
       alert("회원가입에 실패했습니다.");
     }

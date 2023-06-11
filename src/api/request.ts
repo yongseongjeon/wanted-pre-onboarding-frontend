@@ -1,7 +1,7 @@
 import { getItemFromLocalStorage, setItemToLocalStorage } from "../utils/localStorage";
 import { FULL_REQUEST_URL } from "./url";
 
-async function signUp({ email, password }: AuthProps) {
+async function requestSignUp({ email, password }: AuthProps) {
   const headers = {
     "Content-Type": "application/json",
   };
@@ -10,7 +10,7 @@ async function signUp({ email, password }: AuthProps) {
   return res;
 }
 
-async function signIn({ email, password }: AuthProps) {
+async function requestSignIn({ email, password }: AuthProps) {
   const headers = {
     "Content-Type": "application/json",
   };
@@ -21,7 +21,7 @@ async function signIn({ email, password }: AuthProps) {
   return res;
 }
 
-async function getTodos() {
+async function requestGetTodos() {
   const storedAccessToken = getItemFromLocalStorage("accessToken");
   const headers = {
     Authorization: `Bearer ${storedAccessToken}`,
@@ -31,7 +31,19 @@ async function getTodos() {
   return resJson;
 }
 
-export { signUp, signIn, getTodos };
+async function requestAddTodo({ todo }: { todo: string }) {
+  const storedAccessToken = getItemFromLocalStorage("accessToken");
+  const headers = {
+    Authorization: `Bearer ${storedAccessToken}`,
+    "Content-Type": "application/json",
+  };
+  const body = JSON.stringify({ todo });
+  const res = await fetch(FULL_REQUEST_URL.CREATE_TODO, { method: "POST", headers, body });
+  const resJson = await res.json();
+  return resJson;
+}
+
+export { requestSignUp, requestSignIn, requestGetTodos, requestAddTodo };
 
 interface AuthProps {
   email: string;

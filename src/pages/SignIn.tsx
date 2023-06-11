@@ -6,7 +6,7 @@ import useInput from "../hooks/useInput";
 import { validateSignIn } from "../utils/validation";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../route";
-import { signIn } from "../api/request";
+import { requestSignIn } from "../api/request";
 
 const INIT_STATE = "";
 
@@ -25,7 +25,7 @@ function SignIn() {
   }, []);
 
   const handleClickSignInBtn = async () => {
-    const res = await signIn({ email, password });
+    const res = await requestSignIn({ email, password });
     if (!res.ok) {
       alert("로그인에 실패했습니다.");
     }
