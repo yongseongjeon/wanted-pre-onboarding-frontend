@@ -1,18 +1,30 @@
 const END_POINT = "https://www.pre-onboarding-selection-task.shop";
 
-const API_URL = {
+const API_PATH = {
   SIGN_UP: "/auth/signup",
   SIGN_IN: "/auth/signin",
   CREATE_TODO: "/todos",
-  GET_TODO: "/todos",
+  GET_TODOS: "/todos",
 } as const;
 
-const GET_API_URL = {
+const ID_REQUIRED_API_PATH = {
   UPDATE_TODO: (id: number) => `/todos/:${id}`,
   DELETE_TODO: (id: number) => `/todos/:${id}`,
 };
 
-const SIGN_UP_API_URL = END_POINT + API_URL.SIGN_UP;
-const SIGN_IN_API_URL = END_POINT + API_URL.SIGN_IN;
+interface APIUrls {
+  CREATE_TODO: string;
+  GET_TODOS: string;
+  SIGN_IN: string;
+  SIGN_UP: string;
+}
 
-export { API_URL, SIGN_UP_API_URL, SIGN_IN_API_URL };
+const FULL_REQUEST_URL = Object.entries(API_PATH).reduce((prev, [apiName, apiPath]) => {
+  const fullApiUrl = END_POINT + apiPath;
+  return {
+    ...prev,
+    [apiName]: fullApiUrl,
+  };
+}, {} as APIUrls);
+
+export { FULL_REQUEST_URL };
