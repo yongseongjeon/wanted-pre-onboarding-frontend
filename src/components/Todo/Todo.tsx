@@ -4,7 +4,7 @@ import { TEST_ID } from "../../constants/test";
 import useToggle from "../../hooks/useToggle";
 import { requestDeleteTodo, requestUpdateTodo } from "../../api/request";
 import { useDispatch } from "react-redux";
-import { TodoType, deleteTodo } from "../../store/todo";
+import { TodoType, deleteTodo, modifyTodo } from "../../store/todo";
 
 function Todo({ id, todo, isCompleted }: TodoType) {
   const [isEditing, toggleIsEditing] = useToggle(false);
@@ -34,9 +34,12 @@ function EditingTodo({
   toggleIsEditing: () => void;
 }) {
   const [todoInputValue, handleTodoInputValue, , setTodoInputValue] = useInput(todo);
+  const dispatch = useDispatch();
 
   const handleClickSubmitBtn = () => {
-    requestUpdateTodo({ id, todo, isCompleted });
+    requestUpdateTodo({ id, todo: todoInputValue, isCompleted });
+    dispatch(modifyTodo({ id, todo: todoInputValue }));
+    toggleIsEditing();
   };
 
   const handleClickCancelBtn = () => {
