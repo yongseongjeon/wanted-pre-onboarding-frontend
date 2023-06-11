@@ -3,6 +3,7 @@ import useInput from "../../hooks/useInput";
 import Input from "../Input/Input";
 import { TEST_ID } from "../../constants/test";
 import useToggle from "../../hooks/useToggle";
+import { requestDeleteTodo } from "../../api/request";
 
 function Todo({ id, todo, isCompleted }: TodoType) {
   const [isEditing, toggleIsEditing] = useToggle(false);
@@ -12,7 +13,7 @@ function Todo({ id, todo, isCompleted }: TodoType) {
       {isEditing ? (
         <EditingTodo todo={todo} toggleIsEditing={toggleIsEditing} />
       ) : (
-        <NormalTodo todo={todo} toggleIsEditing={toggleIsEditing} />
+        <NormalTodo id={id} todo={todo} toggleIsEditing={toggleIsEditing} />
       )}
     </li>
   );
@@ -42,7 +43,11 @@ function EditingTodo({ todo, toggleIsEditing }: { todo: string; toggleIsEditing:
   );
 }
 
-function NormalTodo({ todo, toggleIsEditing }: { todo: string; toggleIsEditing: () => void }) {
+function NormalTodo({ id, todo, toggleIsEditing }: { id: number; todo: string; toggleIsEditing: () => void }) {
+  const handleClickDeleteBtn = () => {
+    requestDeleteTodo({ id });
+  };
+
   return (
     <>
       <label>
@@ -52,7 +57,9 @@ function NormalTodo({ todo, toggleIsEditing }: { todo: string; toggleIsEditing: 
       <button onClick={toggleIsEditing} data-testid={TEST_ID.BUTTON.MODIFY}>
         수정
       </button>
-      <button data-testid={TEST_ID.BUTTON.DELETE}>삭제</button>
+      <button onClick={handleClickDeleteBtn} data-testid={TEST_ID.BUTTON.DELETE}>
+        삭제
+      </button>
     </>
   );
 }
