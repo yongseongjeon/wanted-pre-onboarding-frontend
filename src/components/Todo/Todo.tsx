@@ -1,13 +1,11 @@
-interface TodoProps {
-  todo: string;
-}
+import { TodoType } from "../../reducer/todoReducer";
 
-function Todo({ todo }: TodoProps) {
+function Todo({ id, content }: TodoType) {
   return (
-    <li>
+    <li key={id}>
       <label>
         <input type="checkbox" />
-        <span>{todo}</span>
+        <span>{content}</span>
       </label>
     </li>
   );
