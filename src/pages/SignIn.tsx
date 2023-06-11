@@ -25,10 +25,7 @@ function SignIn() {
   }, []);
 
   const handleClickSignInBtn = async () => {
-    const res = await requestSignIn({ email, password });
-    if (!res.ok) {
-      alert("로그인에 실패했습니다.");
-    }
+    await requestSignIn({ email, password });
     router(ROUTE_PATH.TODO);
   };
 

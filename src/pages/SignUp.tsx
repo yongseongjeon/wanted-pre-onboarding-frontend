@@ -24,10 +24,7 @@ function SignUp() {
   }, []);
 
   const handleClickSubmitBtn = async () => {
-    const res = await requestSignUp({ email, password });
-    if (!res.ok) {
-      alert("회원가입에 실패했습니다.");
-    }
+    await requestSignUp({ email, password });
     router(ROUTE_PATH.SIGN_IN);
   };
 
