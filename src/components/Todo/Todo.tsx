@@ -4,7 +4,7 @@ import { TEST_ID } from "../../constants/test";
 import useToggle from "../../hooks/useToggle";
 import { requestDeleteTodo, requestUpdateTodo } from "../../api/request";
 import { useDispatch } from "react-redux";
-import { TodoType, deleteTodo, modifyTodo } from "../../store/todo";
+import { TodoType, checkTodo, deleteTodo, modifyTodo } from "../../store/todo";
 
 function Todo({ id, todo, isCompleted }: TodoType) {
   const [isEditing, toggleIsEditing] = useToggle(false);
@@ -14,7 +14,7 @@ function Todo({ id, todo, isCompleted }: TodoType) {
       {isEditing ? (
         <EditingTodo id={id} isCompleted={isCompleted} todo={todo} toggleIsEditing={toggleIsEditing} />
       ) : (
-        <NormalTodo id={id} todo={todo} toggleIsEditing={toggleIsEditing} />
+        <NormalTodo id={id} isCompleted={isCompleted} todo={todo} toggleIsEditing={toggleIsEditing} />
       )}
     </li>
   );
@@ -22,17 +22,14 @@ function Todo({ id, todo, isCompleted }: TodoType) {
 
 export default Todo;
 
-function EditingTodo({
-  id,
-  isCompleted,
-  todo,
-  toggleIsEditing,
-}: {
+interface TodoProps {
   id: number;
   isCompleted: boolean;
   todo: string;
   toggleIsEditing: () => void;
-}) {
+}
+
+function EditingTodo({ id, isCompleted, todo, toggleIsEditing }: TodoProps) {
   const [todoInputValue, handleTodoInputValue, , setTodoInputValue] = useInput(todo);
   const dispatch = useDispatch();
 
@@ -47,10 +44,15 @@ function EditingTodo({
     setTodoInputValue(todo);
   };
 
+  const handleChangeCheckbox = () => {
+    requestUpdateTodo({ id, todo, isCompleted: !isCompleted });
+    dispatch(checkTodo({ id, isCompleted }));
+  };
+
   return (
     <>
       <label>
-        <input type="checkbox" />
+        <input type="checkbox" checked={isCompleted} onChange={handleChangeCheckbox} />
         <Input type="text" value={todoInputValue} onChange={handleTodoInputValue} testId={TEST_ID.INPUT.MODIFY} />
       </label>
       <button onClick={handleClickSubmitBtn} data-testid={TEST_ID.BUTTON.SUBMIT}>
@@ -63,7 +65,7 @@ function EditingTodo({
   );
 }
 
-function NormalTodo({ id, todo, toggleIsEditing }: { id: number; todo: string; toggleIsEditing: () => void }) {
+function NormalTodo({ id, isCompleted, todo, toggleIsEditing }: TodoProps) {
   const dispatch = useDispatch();
 
   const handleClickDeleteBtn = () => {
@@ -71,10 +73,15 @@ function NormalTodo({ id, todo, toggleIsEditing }: { id: number; todo: string; t
     dispatch(deleteTodo({ id }));
   };
 
+  const handleChangeCheckbox = () => {
+    requestUpdateTodo({ id, todo, isCompleted: !isCompleted });
+    dispatch(checkTodo({ id, isCompleted }));
+  };
+
   return (
     <>
       <label>
-        <input type="checkbox" />
+        <input type="checkbox" checked={isCompleted} onChange={handleChangeCheckbox} />
         <span>{todo}</span>
       </label>
       <button onClick={toggleIsEditing} data-testid={TEST_ID.BUTTON.MODIFY}>

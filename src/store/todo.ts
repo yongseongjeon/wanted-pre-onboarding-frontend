@@ -3,6 +3,7 @@ const TODO_ACTIONS = {
   ADD_TODO: "ADD_TODO",
   MODIFY_TODO: "MODIFY_TODO",
   DELETE_TODO: "DELETE_TODO",
+  CHECK_TODO: "CHECK_TODO",
 } as const;
 
 export interface TodoType {
@@ -29,13 +30,18 @@ function deleteTodo({ id }: { id: number }) {
   return { type: TODO_ACTIONS.DELETE_TODO, payload: { id } };
 }
 
+function checkTodo({ id, isCompleted }: { id: number; isCompleted: boolean }) {
+  return { type: TODO_ACTIONS.CHECK_TODO, payload: { id, isCompleted } };
+}
+
 const initialState: TodoType[] = [];
 
 type ActionType =
   | { type: typeof TODO_ACTIONS.SET_TODOS; payload: Todos }
   | { type: typeof TODO_ACTIONS.ADD_TODO; payload: { id: number; todo: string; isCompleted: boolean; userId: number } }
   | { type: typeof TODO_ACTIONS.MODIFY_TODO; payload: { id: number; todo: string } }
-  | { type: typeof TODO_ACTIONS.DELETE_TODO; payload: { id: number } };
+  | { type: typeof TODO_ACTIONS.DELETE_TODO; payload: { id: number } }
+  | { type: typeof TODO_ACTIONS.CHECK_TODO; payload: { id: number; isCompleted: boolean } };
 
 function todoReducer(state = initialState, action: ActionType) {
   switch (action.type) {
@@ -59,9 +65,16 @@ function todoReducer(state = initialState, action: ActionType) {
       });
     case TODO_ACTIONS.DELETE_TODO:
       return state.filter((todo) => todo.id !== action.payload.id);
+    case TODO_ACTIONS.CHECK_TODO:
+      return state.map((todo) => {
+        if (todo.id === action.payload.id) {
+          return { ...todo, isCompleted: !action.payload.isCompleted };
+        }
+        return todo;
+      });
     default:
       return state;
   }
 }
 
-export { setTodos, addTodo, modifyTodo, deleteTodo, todoReducer };
+export { setTodos, addTodo, modifyTodo, deleteTodo, checkTodo, todoReducer };
