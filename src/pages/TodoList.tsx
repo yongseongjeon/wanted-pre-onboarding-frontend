@@ -32,6 +32,7 @@ function TodoList() {
   }, []);
 
   async function handleClickAddBtn() {
+    if (!todoInputValue) return;
     const newTodo = await requestAddTodo({ todo: todoInputValue });
     dispatch(addTodo(newTodo));
     resetInputValue();
