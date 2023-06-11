@@ -8,8 +8,8 @@ const API_PATH = {
 } as const;
 
 const ID_REQUIRED_API_PATH = {
-  UPDATE_TODO: (id: number) => `/todos/:${id}`,
-  DELETE_TODO: (id: number) => `/todos/:${id}`,
+  UPDATE_TODO: (id: number) => `/todos/${id}`,
+  DELETE_TODO: (id: number) => `/todos/${id}`,
 };
 
 const ID_REQUIRED_FULL_REQUEST_URL = {

@@ -1,9 +1,10 @@
-import { TodoType } from "../../reducer/todoReducer";
 import useInput from "../../hooks/useInput";
 import Input from "../Input/Input";
 import { TEST_ID } from "../../constants/test";
 import useToggle from "../../hooks/useToggle";
-import { requestDeleteTodo } from "../../api/request";
+import { requestDeleteTodo, requestUpdateTodo } from "../../api/request";
+import { useDispatch } from "react-redux";
+import { TodoType, deleteTodo } from "../../store/todo";
 
 function Todo({ id, todo, isCompleted }: TodoType) {
   const [isEditing, toggleIsEditing] = useToggle(false);
@@ -11,7 +12,7 @@ function Todo({ id, todo, isCompleted }: TodoType) {
   return (
     <li>
       {isEditing ? (
-        <EditingTodo todo={todo} toggleIsEditing={toggleIsEditing} />
+        <EditingTodo id={id} isCompleted={isCompleted} todo={todo} toggleIsEditing={toggleIsEditing} />
       ) : (
         <NormalTodo id={id} todo={todo} toggleIsEditing={toggleIsEditing} />
       )}
@@ -21,8 +22,22 @@ function Todo({ id, todo, isCompleted }: TodoType) {
 
 export default Todo;
 
-function EditingTodo({ todo, toggleIsEditing }: { todo: string; toggleIsEditing: () => void }) {
+function EditingTodo({
+  id,
+  isCompleted,
+  todo,
+  toggleIsEditing,
+}: {
+  id: number;
+  isCompleted: boolean;
+  todo: string;
+  toggleIsEditing: () => void;
+}) {
   const [todoInputValue, handleTodoInputValue, , setTodoInputValue] = useInput(todo);
+
+  const handleClickSubmitBtn = () => {
+    requestUpdateTodo({ id, todo, isCompleted });
+  };
 
   const handleClickCancelBtn = () => {
     toggleIsEditing();
@@ -35,7 +50,9 @@ function EditingTodo({ todo, toggleIsEditing }: { todo: string; toggleIsEditing:
         <input type="checkbox" />
         <Input type="text" value={todoInputValue} onChange={handleTodoInputValue} testId={TEST_ID.INPUT.MODIFY} />
       </label>
-      <button data-testid={TEST_ID.BUTTON.SUBMIT}>제출</button>
+      <button onClick={handleClickSubmitBtn} data-testid={TEST_ID.BUTTON.SUBMIT}>
+        제출
+      </button>
       <button onClick={handleClickCancelBtn} data-testid={TEST_ID.BUTTON.CANCEL}>
         취소
       </button>
@@ -44,8 +61,11 @@ function EditingTodo({ todo, toggleIsEditing }: { todo: string; toggleIsEditing:
 }
 
 function NormalTodo({ id, todo, toggleIsEditing }: { id: number; todo: string; toggleIsEditing: () => void }) {
+  const dispatch = useDispatch();
+
   const handleClickDeleteBtn = () => {
     requestDeleteTodo({ id });
+    dispatch(deleteTodo({ id }));
   };
 
   return (
