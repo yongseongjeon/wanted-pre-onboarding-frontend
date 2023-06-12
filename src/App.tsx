@@ -6,8 +6,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          {routeConfigs.map(({ path, element }) => (
-            <Route path={path} element={element} />
+          {routeConfigs.map(({ id, path, element }) => (
+            <Route key={id} path={path} element={element} />
           ))}
         </Routes>
       </BrowserRouter>

@@ -45,7 +45,7 @@ function TodoList() {
         추가
       </button>
       {todos.map(({ id, todo, isCompleted }: Todo) => (
-        <TodoContainer id={id} todo={todo} isCompleted={isCompleted} />
+        <TodoContainer key={id} id={id} todo={todo} isCompleted={isCompleted} />
       ))}
     </div>
   );
