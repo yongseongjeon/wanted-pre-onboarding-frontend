@@ -13,6 +13,8 @@ npm run start
 
 ## 데모 영상
 
+https://github.com/yongseongjeon/wanted-pre-onboarding-frontend/assets/47478821/ed4f539d-9f62-4ce4-949c-9381fc695b86
+
 ## 배포 링크
 
 http://rumka-todolist.s3-website.ap-northeast-2.amazonaws.com/
