@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { validateEmail, validatePassword } from "../utils/validation";
+import { AuthProps } from "../types/Auth";
 
-function useFormValidation({ email, password }: any) {
+function useFormValidation({ email, password }: AuthProps) {
   const [isValid, setIsValid] = useState(false);
   useEffect(
     function updateIsValidStatus() {

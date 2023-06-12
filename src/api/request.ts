@@ -1,3 +1,4 @@
+import { AuthProps } from "../types/Auth";
 import { getItemFromLocalStorage, setItemToLocalStorage } from "../utils/localStorage";
 import { FULL_REQUEST_URL, ID_REQUIRED_FULL_REQUEST_URL } from "./url";
 
@@ -28,11 +29,6 @@ async function request({ url, method, body, withAuth }: requestProps): Promise<a
   }
   const resJson = await res.json();
   return resJson;
-}
-
-interface AuthProps {
-  email: string;
-  password: string;
 }
 
 async function requestSignUp({ email, password }: AuthProps): Promise<Response> {
