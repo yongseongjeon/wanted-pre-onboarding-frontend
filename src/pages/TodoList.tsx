@@ -10,11 +10,12 @@ import { TEST_ID } from "../constants/test";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo, setTodos } from "../store/todo";
 import { Todo } from "../types/Todo";
+import { RootState } from "../store/Store";
 
 function TodoList() {
   const { routeTo } = useRouter();
   const dispatch = useDispatch();
-  const todos = useSelector((state: any) => state.todo);
+  const todos = useSelector((state: RootState) => state.todo);
   const [todoInputValue, handleTodoInputValue, resetInputValue] = useInput("");
 
   useEffect(function redirectSignInPageIfNotSignedIn() {
