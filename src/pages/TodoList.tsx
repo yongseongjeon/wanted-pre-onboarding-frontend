@@ -16,19 +16,18 @@ function TodoList() {
   const { todos, dispatch } = useContext(TodoContext);
   const [todoInputValue, handleTodoInputValue, resetInputValue] = useInput("");
 
-  useEffect(function redirectSignInPageIfNotSignedIn() {
+  useEffect(() => {
     const isSignedIn = validateSignIn();
     if (!isSignedIn) {
       routeTo(ROUTE_PATH.SIGN_IN);
+      return;
     }
-  }, []);
+    fetchAndSetTodos();
 
-  useEffect(() => {
     async function fetchAndSetTodos() {
       const todos = await requestGetTodos();
       dispatch(setTodos({ todos }));
     }
-    fetchAndSetTodos();
   }, []);
 
   async function handleClickAddBtn() {
