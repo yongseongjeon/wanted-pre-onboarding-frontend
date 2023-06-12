@@ -8,7 +8,8 @@ import Input from "../components/Input/Input";
 import useInput from "../hooks/useInput";
 import { TEST_ID } from "../constants/test";
 import { useDispatch, useSelector } from "react-redux";
-import { TodoType, addTodo, setTodos } from "../store/todo";
+import { addTodo, setTodos } from "../store/todo";
+import { Todo } from "../types/Todo";
 
 function TodoList() {
   const { routeTo } = useRouter();
@@ -44,7 +45,7 @@ function TodoList() {
       <button type="button" onClick={handleClickAddBtn} data-testid={TEST_ID.BUTTON.NEW_TODO_ADD}>
         추가
       </button>
-      {todos.map(({ id, todo, isCompleted }: TodoType) => (
+      {todos.map(({ id, todo, isCompleted }: Todo) => (
         <TodoContainer id={id} todo={todo} isCompleted={isCompleted} />
       ))}
     </div>

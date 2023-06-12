@@ -1,3 +1,5 @@
+import { Todo, Todos } from "../types/Todo";
+
 const TODO_ACTIONS = {
   SET_TODOS: "SET_TODOS",
   ADD_TODO: "ADD_TODO",
@@ -6,15 +8,7 @@ const TODO_ACTIONS = {
   CHECK_TODO: "CHECK_TODO",
 } as const;
 
-export interface TodoType {
-  id: number;
-  todo: string;
-  isCompleted: boolean;
-}
-export interface Todos {
-  todos: TodoType[];
-}
-function setTodos({ todos }: Todos) {
+function setTodos({ todos }: { todos: Todos }) {
   return { type: TODO_ACTIONS.SET_TODOS, payload: { todos } };
 }
 
@@ -34,10 +28,10 @@ function checkTodo({ id, isCompleted }: { id: number; isCompleted: boolean }) {
   return { type: TODO_ACTIONS.CHECK_TODO, payload: { id, isCompleted } };
 }
 
-const initialState: TodoType[] = [];
+const initialState: Todo[] = [];
 
 type ActionType =
-  | { type: typeof TODO_ACTIONS.SET_TODOS; payload: Todos }
+  | { type: typeof TODO_ACTIONS.SET_TODOS; payload: { todos: Todos } }
   | { type: typeof TODO_ACTIONS.ADD_TODO; payload: { id: number; todo: string; isCompleted: boolean; userId: number } }
   | { type: typeof TODO_ACTIONS.MODIFY_TODO; payload: { id: number; todo: string } }
   | { type: typeof TODO_ACTIONS.DELETE_TODO; payload: { id: number } }

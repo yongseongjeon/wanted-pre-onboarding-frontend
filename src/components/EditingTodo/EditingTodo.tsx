@@ -4,13 +4,7 @@ import { TEST_ID } from "../../constants/test";
 import { requestUpdateTodo } from "../../api/request";
 import { useDispatch } from "react-redux";
 import { checkTodo, modifyTodo } from "../../store/todo";
-
-export interface TodoProps {
-  id: number;
-  isCompleted: boolean;
-  todo: string;
-  toggleIsEditing: () => void;
-}
+import { TodoProps } from "../../types/Todo";
 
 function EditingTodo({ id, isCompleted, todo, toggleIsEditing }: TodoProps) {
   const [todoInputValue, handleTodoInputValue, , setTodoInputValue] = useInput(todo);

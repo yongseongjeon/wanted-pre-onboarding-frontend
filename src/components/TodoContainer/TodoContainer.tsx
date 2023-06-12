@@ -1,9 +1,9 @@
 import useToggle from "../../hooks/useToggle";
-import { TodoType } from "../../store/todo";
+import { Todo } from "../../types/Todo";
 import EditingTodo from "../EditingTodo/EditingTodo";
 import NormalTodo from "../NormalTodo/NormalTodo";
 
-function TodoContainer({ id, todo, isCompleted }: TodoType) {
+function TodoContainer({ id, todo, isCompleted }: Todo) {
   const [isEditing, toggleIsEditing] = useToggle(false);
 
   return (

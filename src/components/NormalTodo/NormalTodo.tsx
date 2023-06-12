@@ -2,7 +2,7 @@ import { TEST_ID } from "../../constants/test";
 import { requestDeleteTodo, requestUpdateTodo } from "../../api/request";
 import { useDispatch } from "react-redux";
 import { checkTodo, deleteTodo } from "../../store/todo";
-import { TodoProps } from "../EditingTodo/EditingTodo";
+import { TodoProps } from "../../types/Todo";
 
 function NormalTodo({ id, isCompleted, todo, toggleIsEditing }: TodoProps) {
   const dispatch = useDispatch();
