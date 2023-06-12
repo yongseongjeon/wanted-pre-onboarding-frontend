@@ -1,21 +1,19 @@
 import { validateSignIn } from "../utils/validation";
 import { ROUTE_PATH } from "../route";
 import useRouter from "../hooks/useRouter";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import TodoContainer from "../components/TodoContainer/TodoContainer";
 import { requestAddTodo, requestGetTodos } from "../api/request";
 import Input from "../components/Input/Input";
 import useInput from "../hooks/useInput";
 import { TEST_ID } from "../constants/test";
-import { useDispatch, useSelector } from "react-redux";
 import { addTodo, setTodos } from "../store/todo";
 import { Todo } from "../types/Todo";
-import { RootState } from "../store/Store";
+import { TodoContext } from "../store/TodoContext";
 
 function TodoList() {
   const { routeTo } = useRouter();
-  const dispatch = useDispatch();
-  const todos = useSelector((state: RootState) => state.todo);
+  const { todos, dispatch } = useContext(TodoContext);
   const [todoInputValue, handleTodoInputValue, resetInputValue] = useInput("");
 
   useEffect(function redirectSignInPageIfNotSignedIn() {

@@ -2,13 +2,14 @@ import useInput from "../../hooks/useInput";
 import Input from "../Input/Input";
 import { TEST_ID } from "../../constants/test";
 import { requestUpdateTodo } from "../../api/request";
-import { useDispatch } from "react-redux";
 import { checkTodo, modifyTodo } from "../../store/todo";
 import { TodoProps } from "../../types/Todo";
+import { useContext } from "react";
+import { TodoContext } from "../../store/TodoContext";
 
 function EditingTodo({ id, isCompleted, todo, toggleIsEditing }: TodoProps) {
   const [todoInputValue, handleTodoInputValue, , setTodoInputValue] = useInput(todo);
-  const dispatch = useDispatch();
+  const { dispatch } = useContext(TodoContext);
 
   const handleClickSubmitBtn = () => {
     requestUpdateTodo({ id, todo: todoInputValue, isCompleted });
