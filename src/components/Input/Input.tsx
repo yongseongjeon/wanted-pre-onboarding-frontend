@@ -1,11 +1,5 @@
 import { TEST_ID } from "../../constants/test";
 
-function Input({ type, value, onChange, testId }: InputProps) {
-  return <input type={type} value={value} onChange={onChange} data-testid={testId} />;
-}
-
-export default Input;
-
 type TestIdInputType = typeof TEST_ID.INPUT;
 
 interface InputProps {
@@ -14,3 +8,9 @@ interface InputProps {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   testId: TestIdInputType[keyof TestIdInputType];
 }
+
+function Input({ type, value, onChange, testId }: InputProps) {
+  return <input type={type} value={value} onChange={onChange} data-testid={testId} />;
+}
+
+export default Input;

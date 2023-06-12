@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+type useToggleReturnType = [boolean, () => void];
+
 function useToggle(initialState: boolean): useToggleReturnType {
   const [state, setState] = useState(initialState);
 
@@ -11,5 +13,3 @@ function useToggle(initialState: boolean): useToggleReturnType {
 }
 
 export default useToggle;
-
-type useToggleReturnType = [boolean, () => void];

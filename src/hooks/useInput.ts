@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 
+type useInputReturnType = [string, (e: React.ChangeEvent<HTMLInputElement>) => void, () => void, Dispatch<SetStateAction<string>>];
+
 function useInput(initialState: string): useInputReturnType {
   const [value, setValue] = useState(initialState);
 
@@ -16,5 +18,3 @@ function useInput(initialState: string): useInputReturnType {
 }
 
 export default useInput;
-
-type useInputReturnType = [string, (e: React.ChangeEvent<HTMLInputElement>) => void, () => void, Dispatch<SetStateAction<string>>];

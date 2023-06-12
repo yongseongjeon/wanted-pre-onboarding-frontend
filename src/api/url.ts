@@ -17,6 +17,13 @@ const ID_REQUIRED_FULL_REQUEST_URL = {
   UPDATE: (id: number) => END_POINT + ID_REQUIRED_API_PATH.UPDATE_TODO(id),
 };
 
+interface APIUrls {
+  CREATE_TODO: string;
+  GET_TODOS: string;
+  SIGN_IN: string;
+  SIGN_UP: string;
+}
+
 const FULL_REQUEST_URL = Object.entries(API_PATH).reduce((prev, [apiName, apiPath]) => {
   const fullApiUrl = END_POINT + apiPath;
   return {
@@ -26,10 +33,3 @@ const FULL_REQUEST_URL = Object.entries(API_PATH).reduce((prev, [apiName, apiPat
 }, {} as APIUrls);
 
 export { FULL_REQUEST_URL, ID_REQUIRED_FULL_REQUEST_URL };
-
-interface APIUrls {
-  CREATE_TODO: string;
-  GET_TODOS: string;
-  SIGN_IN: string;
-  SIGN_UP: string;
-}

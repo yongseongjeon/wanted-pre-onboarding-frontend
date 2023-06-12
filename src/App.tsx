@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { routeConfigs } from "./route";
 
@@ -17,4 +16,3 @@ function App() {
 }
 
 export default App;
-
